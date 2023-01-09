@@ -813,7 +813,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
-/*$databases['default']['default'] = array (
+$databases['default']['default'] = array (
   'database' => 'thebar',
   'username' => 'root',
   'password' => 'admin',
@@ -823,8 +823,9 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
   'namespace' => 'Drupal\\mysql\\Driver\\Database\\mysql',
   'driver' => 'mysql',
   'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
-);*/
-$databases['default']['default'] = array (
+);
+//asdad
+/*$databases['default']['default'] = array (
   'database' => 'ankitver_thebar',
   'username' => 'ankitver_drupal',
   'password' => '8y{a(o-IrhQ~',
@@ -834,7 +835,7 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\mysql\\Driver\\Database\\mysql',
   'driver' => 'mysql',
   'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
-);
+);*/
 
 //Setting for mail SMTP
 $config['smtp.settings']['smtp_on'] = "true";
