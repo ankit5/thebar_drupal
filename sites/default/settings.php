@@ -835,4 +835,12 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
   'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
+
+//Setting for mail SMTP
+$config['smtp.settings']['smtp_on'] = "true";
+//$config['smtp.settings']['smtp_host'] = 'mail.thebarstallion.com';
+$config['smtp.settings']['smtp_port'] = '465';
+$config['smtp.settings']['smtp_protocol'] = 'ssl';
+$config['smtp.settings']['smtp_username'] = 'info@thebarstallion.com';
+$config['smtp.settings']['smtp_password'] = 'thebar123#';
 $settings['config_sync_directory'] = 'sites/default/files/config_EgZo_nCZ9-YPZQzfZdnCCg4GuvHj3WhuLfcGEMOGzpML2V7stIycLA_UGXnJ6PP-n1N-17galA/sync';
