@@ -1,0 +1,12 @@
+<div class="accordion-item">
+  <h2 class="accordion-header" id="heading_{{ field_name }}">
+    <div {{ button_attributes }}>
+      {{ title }}
+    </div>
+  </h2>
+  <div id="{{ id }}" class="accordion-collapse collapse {{ collapse }}" aria-labelledby="heading_{{ field_name }}" data-bs-parent="#{{ parent_id }}">
+    <div class="accordion-body">
+      {{ children }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,353 @@
+<?php
+
+/**
+ * @file
+ * Field Group bootstrap.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements hook_field_group_form_process_alter().
+ */
+function field_group_bootstrap_field_group_form_process_alter(&$field_group_element, &$group, array &$element) {
+  if (!empty($field_group_element['#remove_fields'])) {
+    foreach ($field_group_element['#remove_fields'] as $field) {
+      unset($element[$field]['widget']);
+    }
+  }
+  if (!empty($group->format_type)) {
+    switch ($group->format_type) {
+      case 'bootstrap_tabs':
+        foreach ($group->children as $child) {
+          if (!empty($element[$child])) {
+            $element[$child]["#attributes"]["class"][] = 'tab-pane fade';
+            $element[$child]["#attributes"]["role"] = 'tabpanel';
+            if (!empty($element[$child]['widget'])) {
+              hide_form_title($element[$child]['widget']);
+            }
+            if (!empty($field_group_element["#default_tab"]) && $field_group_element["#default_tab"] == $child) {
+              $element[$child]["#attributes"]["class"][] = 'show active';
+            }
+          }
+        }
+        break;
+
+      case 'bootstrap_accordion':
+        foreach ($group->children as $child) {
+          if (!empty($element[$child])) {
+            $element[$child]["#button_attributes"] = new Attribute($field_group_element["#items"][$child]["#attributes"]);
+            $element[$child]["#title"] = $field_group_element["#items"][$child]["#title"];
+            $element[$child]["#parent_id"] = $field_group_element["#id"];
+            $element[$child]["#theme_wrappers"] = ['field_group_bootstrap_accordion'];
+            if (!empty($element[$child]['widget'])) {
+              hide_form_title($element[$child]['widget']);
+            }
+            $element[$child]["#collapse"] = '';
+            if(!empty($field_group_element["#default_tab"]) && $field_group_element["#default_tab"] == $child ){
+              $element[$child]["#collapse"] = 'show';
+            }
+          }
+        }
+        $element['#attached']['library'][] = 'field_group_bootstrap/field_group_boostrap';
+        break;
+
+      case 'bootstrap_horizontal_form':
+        $label_width = $group->format_settings["width"];
+        $element['#attached']['library'][] = 'field_group_bootstrap/field_group_horizontal_form';
+        foreach ($group->children as $child) {
+          if (!empty($element[$child]['widget'])) {
+            $element[$child] += set_theme_wrapper_horizontal_form($element, $child, $label_width);
+          }
+          elseif (!empty($element["#fieldgroups"][$child])) {
+            foreach ($element["#fieldgroups"][$child]->children as $group_child) {
+              $element[$group_child] += set_theme_wrapper_horizontal_form($element, $group_child, $label_width);
+            }
+          }
+          else {
+            foreach (Element::children($element[$child]) as $subChild) {
+              $id_for = $label = '';
+              hide_form_title($element[$child][$subChild], $label, $id_for);
+              $element[$child][$subChild] += [
+                '#id_for' => Html::getId($id_for),
+                '#label' => $label,
+                '#label_width' => $label_width,
+                '#theme_wrappers' => ['field_group_bootstrap_horizontal_form'],
+              ];
+            }
+          }
+        }
+        break;
+
+      case 'bootstrap_floating_labels':
+        $classFloating = 'form-floating';
+        foreach ($group->children as $child) {
+          if (!empty($element[$child]['widget'])) {
+            _set_label_floating($element[$child]['widget'], $classFloating);
+          }
+          elseif (!empty($element["#fieldgroups"][$child])) {
+            foreach ($element["#fieldgroups"][$child]->children as $group_child) {
+              _set_label_floating($element[$group_child], $classFloating);
+            }
+          }
+          else {
+            foreach (Element::children($element[$child]) as $subChild) {
+              _set_label_floating($element[$child][$subChild], $classFloating);
+            }
+          }
+        }
+        break;
+
+      case 'bootstrap_grid':
+        foreach ($group->children as $child) {
+          if(!empty($element[$child]['#attributes'])){
+            $element[$child]['#attributes']['class'][] = 'col';
+          }
+          if (!empty($element[$child]['widget'])) {
+            $element[$child] += set_theme_wrapper_grid($element, $child);
+          }
+          elseif (!empty($element["#fieldgroups"][$child])) {
+            foreach ($element["#fieldgroups"][$child]->children as $group_child) {
+              $element[$group_child] += set_theme_wrapper_grid($element, $group_child);
+            }
+          }
+          else {
+            foreach (Element::children($element[$child]) as $subChild) {
+              $id_for = $label = '';
+              hide_form_title($element[$child][$subChild], $label, $id_for);
+              $element[$child][$subChild] += [
+                '#label' => $label,
+                '#theme_wrappers' => ['field_group_bootstrap_grid'],
+              ];
+            }
+          }
+        }
+        break;
+
+      case 'bootstrap_multistep':
+        foreach ($group->children as $delta => $child) {
+          if (empty($element[$child]["#attributes"])) {
+            $element[$child]["#attributes"] = [
+              'class' => ['step'],
+              'data-step' => $delta,
+            ];
+            if ($delta) {
+              $element[$child]["#attributes"]["class"][] = 'd-none';
+            }
+          }
+          else {
+            $element[$child]["#attributes"]["class"][] = 'step';
+            $element[$child]["#attributes"]["data-step"] = $delta;
+            if ($delta) {
+              $element[$child]["#attributes"]["class"][] = 'd-none';
+            }
+          }
+        }
+        break;
+    }
+  }
+}
+/**
+ * Set theme field_group_bootstrap_floating_labels.
+ *
+ */
+function _set_label_floating(array &$element, $class){
+  $hasChild = FALSE;
+  foreach (Element::children($element) as $child) {
+    if(!empty($element[$child]["#type"]) && in_array($element[$child]["#type"],['checkbox','radio','checkboxes','radios','text_format'])){
+      return;
+    }
+    if (!empty($child) && in_array($child, ["value","target_id"])) {
+      if (empty($element[$child]["#placeholder"])) {
+        $element[$child]["#placeholder"] = !empty($element[$child]["#title"]) ? $element[$child]["#title"] : $element["#title"];
+      }
+    }
+    _set_label_floating($element[$child], $class);
+    $hasChild = TRUE;
+  }
+  if(!$hasChild){
+    $element["#title_display"] = 'after';
+    $element["#label_display"] = 'after';
+    $element['#wrapper_attributes']['class'][] = $class;
+    if (empty($element["#placeholder"])) {
+      $element["#placeholder"] = !empty($element["#title"]) ? $element["#title"] : '';
+    }
+  }
+}
+
+/**
+ * Set theme field_group_bootstrap_horizontal_form.
+ *
+ * @param array $element
+ *   The form element.
+ * @param string $field_name
+ *   The field name.
+ * @param int $label_width
+ *   The label width.
+ *
+ * @return array
+ *   An array of theme wrapper details.
+ */
+function set_theme_wrapper_horizontal_form(array &$element, $field_name, $label_width = 3): array {
+  $label = $id_for = '';
+  if (!empty($element[$field_name]['widget'][0]["address"])) {
+    return [];
+  }
+  $required = !empty($element[$field_name]["widget"]["#required"]) ? $element[$field_name]["widget"]["#required"] : FALSE;
+  hide_form_title($element[$field_name]['widget'], $label, $id_for);
+  return [
+    '#id_for' => Html::getId($id_for),
+    '#label' => $label,
+    '#label_width' => $label_width,
+    '#required' => $required,
+    "#theme_wrappers" => ['field_group_bootstrap_horizontal_form'],
+  ];
+}
+
+/**
+ * Set theme field_group_bootstrap_horizontal_form.
+ *
+ * @param array $element
+ *   The form element.
+ * @param string $field_name
+ *   The field name.
+ * @param int $label_width
+ *   The label width.
+ *
+ * @return array
+ *   An array of theme wrapper details.
+ */
+function set_theme_wrapper_grid(array &$element, $field_name, $label_width = 3): array {
+  $grid = set_theme_wrapper_horizontal_form($element, $field_name, $label_width);
+  $grid ["#theme_wrappers"] = ['field_group_bootstrap_grid'];
+  return $grid;
+}
+
+/**
+ * Implements hook_field_group_build_pre_render_alter().
+ *
+ * @param array $element
+ */
+function field_group_bootstrap_field_group_build_pre_render_alter(array &$element) {
+  if (!empty($element['#remove_fields'])) {
+    foreach ($element['#remove_fields'] as $field) {
+      $element[$field]["#access"] = FALSE;
+    }
+  }
+}
+
+/**
+ * Hide field label.
+ *
+ * @param array $field_form
+ *   The field forms.
+ * @param string $title
+ *   The title.
+ * @param string $unprocessed_id
+ *   The unprocessed ID.
+ *
+ * @return bool
+ *   Returns either TRUE or FALSE.
+ */
+function hide_form_title(&$field_form, &$title = '', &$unprocessed_id = '') {
+  if (!empty($field_form['value']['#type']) && $field_form['value']['#type'] == 'checkbox') {
+    return FALSE;
+  }
+  if (!empty($field_form['#title'])) {
+    $title = $field_form['#title'];
+  }
+  if (!empty($field_form['#title_display']) || !empty($field_form['#title'])) {
+    if (!empty($field_form["#cardinality_multiple"])) {
+      $field_form['#title'] = '';
+    }
+    $field_form['#title_display'] = 'invisible';
+  }
+  // Remove title paragraph.
+  if (!empty($field_form['#paragraph_type'])&& !empty($field_form['subform'])) {
+    return FALSE;
+  }
+  if (!empty($field_form["add_more"]) && !empty($field_form["title"])) {
+    $field_form["title"]["#access"] = FALSE;
+    return FALSE;
+  }
+  // Remove title field date.
+  if (!empty($field_form['#type']) && $field_form['#type'] == 'datetime') {
+    $field_form['#title'] = '';
+  }
+  // Remove title field textarea.
+  if (!empty($field_form['#base_type']) && $field_form['#base_type'] == 'textarea' && !empty($field_form['summary'])) {
+    return FALSE;
+  }
+  // Remove fieldset field date & time.
+  if (!empty($field_form["#theme_wrappers"][0]) && in_array($field_form["#theme_wrappers"][0], ['fieldset'])) {
+    array_shift($field_form["#theme_wrappers"]);
+  }
+  // For display manager.
+  if (!empty($field_form["#label_display"])) {
+    $field_form["#label_display"] = 'hidden';
+  }
+  if (is_array($field_form)) {
+    foreach (Element::children($field_form) as $child) {
+      if (!empty($field_form["end_value"]) || (!empty($field_form['lat']) && !empty($field_form['lng']))) {
+        continue;
+      }
+      if (!empty($field_form[$child]["#title_display"]) && $field_form[$child]["#title_display"] == 'invisible') {
+        continue;
+      }
+      hide_form_title($field_form[$child], $title);
+    }
+  }
+  if (!empty($field_form['#parents'])) {
+    $unprocessed_id = 'edit-' . implode('-', $field_form['#parents']);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function field_group_bootstrap_theme() {
+  return [
+    'field_group_bootstrap_tabs' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-tabs',
+      'file' => 'templates/theme.inc',
+    ],
+    'field_group_bootstrap_table' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-table',
+      'file' => 'templates/theme.inc',
+    ],
+    'field_group_bootstrap_scrollby' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-scrollby',
+      'file' => 'templates/theme.inc',
+    ],
+    'field_group_bootstrap_modal' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-modal',
+      'file' => 'templates/theme.inc',
+    ],
+    'field_group_bootstrap_accordion' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-accordion',
+      'file' => 'templates/theme.inc',
+    ],
+    'field_group_bootstrap_horizontal_form' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-horizontal-form',
+      'file' => 'templates/theme.inc',
+    ],
+    'field_group_bootstrap_grid' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-grid',
+      'file' => 'templates/theme.inc',
+    ],
+    'field_group_bootstrap_multistep' => [
+      'render element' => 'element',
+      'template' => 'field-group-bootstrap-multistep',
+      'file' => 'templates/theme.inc',
+    ],
+  ];
+}

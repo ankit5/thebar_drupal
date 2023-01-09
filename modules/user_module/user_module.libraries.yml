@@ -1,0 +1,58 @@
+user_module_css:
+  version: 1.x
+  css:
+    base:
+      css/main.css: {}
+
+user_module_order_css:
+  version: 1.x
+  css:
+    base:
+      css/order.css: {}
+
+user_module_js:
+  version: 1.x
+  js:
+    js/datepicker.js: {}
+
+confirmation-js:
+  js:
+    js/confirmation_popup.js: {}
+  dependencies:
+   - core/jquery
+   - core/drupal.ajax
+   - core/drupal
+   - core/drupalSettings
+   - core/drupal.dialog
+   - core/jquery.once
+
+drupal_js:
+  version: 1.x
+  js:
+    js/drupal.js: {}
+
+global:
+  dependencies:
+    - core/jquery
+    - core/jquery.ui.datepicker
+
+toolbar:
+  version: 0.0.1
+  js:
+    js/toolbar.js: {}
+  dependencies:
+    - toolbar/toolbar
+ 
+user_module_external:
+  version: 1.x
+  css:
+    base:
+      https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap-grid.min.css: { type: external, minified: true }
+
+user_module_flatpickr:
+  version: 1.x
+  css:
+    base:
+      https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css: { type: external, minified: true }
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js: { type: external, weight: -10 }

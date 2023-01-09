@@ -1,0 +1,16 @@
+{% set classes = ['form-group', 'row', 'mb-3'] %}
+{% if(term_description) %}
+  <dt class="col-sm-{{ label_width }}">{{ label }}</dt>
+  <dd class="col-sm-{{12 - label_width }}">{{ children }}</dd>
+{% else %}
+<div{{ attributes.addClass(classes) }}>
+  {% if label_width != false %}
+  <label for="{{ id_for }}" class="col-sm-{{ label_width }} col-form-label font-weight-bold {{ required }}">{{ label }}</label>
+  <div class="col-sm-{{12 - label_width }}">
+  {% endif %}
+    {{ children }}
+  {% if label_width != false %}
+  </div>
+  {% endif %}
+</div>
+{% endif %}

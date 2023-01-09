@@ -1,0 +1,31 @@
+<?php
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_schema().
+ */
+function user_module_schema(){
+   /* $schema['punch_time'] = array(
+        'description' => 'The table for storing the Punch information',
+        'fields' => array(
+            'id' => array(
+                'description' => 'Primary identifier for Punch',
+                'type' => 'serial',
+                'not null' => TRUE,
+                'unsigned' => TRUE,
+            ),
+            'user_id' => array(
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+                'description' => "Creator user's {users}.uid",
+            ),
+            'punch_time' => [
+              'mysql_type' => 'timestamp',
+              'not null' => TRUE,
+            ],
+        ),
+        'primary key' => array('id'),
+    );
+    return $schema;*/
+}

@@ -1,0 +1,24 @@
+{
+  "name": "drupal/field_group_bootstrap",
+  "description": "This module provides both a field formatter and a widget for the Paragraphs entity type",
+  "type": "drupal-module",
+  "minimum-stability": "stable",
+  "homepage": "https://www.drupal.org/project/field_group_bootstrap",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/field_group_bootstrap",
+    "source": "https://git.drupalcode.org/project/field_group_bootstrap"
+  },
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "NGUYEN Bao",
+      "email": "n.bao@yahoo.com",
+      "homepage": "https://www.drupal.org/u/lazzyvn",
+      "role": "Maintainer"
+    }
+  ],
+  "require": {
+    "drupal/core": "^9 || ^10",
+    "drupal/field_group": "~3.0"
+  }
+}

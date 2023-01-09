@@ -1,0 +1,13 @@
+.field-group-bootstrap_tabs-wrapper>.item-list>.nav>li {
+  margin: 0;
+}
+.nav-tabs[aria-orientation*="vertical"] .nav-link {
+  border-right-color: #dee2e6;
+}
+.nav-tabs[aria-orientation*="vertical"] .nav-link.active {
+  border-right-color: transparent;
+  border-bottom-color: #dee2e6;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 5px;
+}

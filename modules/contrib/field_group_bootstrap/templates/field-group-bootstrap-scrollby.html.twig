@@ -1,0 +1,26 @@
+{% if direction == 'horizontal' %}
+  <nav id="{{ id }}" class="navbar navbar-light bg-light px-3">
+    <ul class="nav nav-pills">
+      {% for field, nav in navigation %}
+      <li class="nav-item">
+        <a class="nav-link {{ nav.active }}" href="#{{ nav.id }}" data-controls="{{ field }}" data-group="{{ nav.group }}">{{ nav.label }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <div{{ attributes.addClass(classes) }}>
+    {{ children }}
+  </div>
+{% elseif direction == 'vertical' %}
+  <div class="col-{{ label_width }} list-group" id="{{ id }}">
+    {% for field, nav in navigation %}
+      <a class="list-group-item list-group-item-action {{ nav.active }}" href="#{{ nav.id }}" data-controls="{{ field }}" data-group="{{ nav.group }}">{{ nav.label }}</a>
+    {% endfor %}
+  </div>
+  <div class="{{ 'col-'~(12-label_width) }}">
+    {% set classes = ['scrollspy-content'] %}
+    <div{{ attributes.addClass(classes) }}>
+      {{ children }}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,8 @@
+name: User Module Custom
+type: module
+description: 'user module'
+package: Custom
+core_version_requirement: ^8 || ^9
+core: 8.x
+dependencies:
+  - toolbar

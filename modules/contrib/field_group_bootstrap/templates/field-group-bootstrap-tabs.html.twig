@@ -1,0 +1,23 @@
+{% if title is not empty %}
+  <h5>{{ title }}</h5>
+{% endif %}
+
+{% if direction == 'horizontal' %}
+  <ul class="nav nav-{{ mode }}s" role="tablist" aria-orientation="{{ direction }}">
+    {% for field, nav in navigation %}
+      <li class="nav-item" data-bs-toggle="presentation">
+        <button {{ nav.attributes }}>{{ nav.label }}</button>
+      </li>
+    {% endfor %}
+  </ul>
+{% elseif direction == 'vertical' %}
+  <div class="nav flex-column nav-{{ mode }}s me-3" role="tablist" aria-orientation="{{ direction }}">
+    {% for field, nav in navigation %}
+        <button {{ nav.attributes }}>{{ nav.label }}</button>
+    {% endfor %}
+  </div>
+{% endif %}
+{% set classes = ['tab-content'] %}
+<div{{ attributes.addClass(classes) }}>
+  {{ children }}
+</div>

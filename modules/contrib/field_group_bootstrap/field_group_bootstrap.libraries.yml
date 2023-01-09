@@ -1,0 +1,25 @@
+field_group_boostrap:
+  version: VERSION
+  js:
+    js/field_group_boostrap.js: {}
+  css:
+    component:
+      css/boostrap_tabs.css: {}
+  dependencies:
+    - core/drupal
+    - core/js-cookie
+
+field_group_horizontal_form:
+  version: VERSION
+  css:
+    component:
+      css/boostrap_horizontal_form.css: {}
+  dependencies:
+    - core/drupal
+
+multistep:
+  version: VERSION
+  js:
+    js/field_group_boostrap_multistep.js: { }
+  dependencies:
+    - core/drupal

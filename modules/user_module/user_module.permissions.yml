@@ -1,0 +1,7 @@
+admin custom module:
+  title: 'Admin Custom module'
+  restrict access: true
+
+schedule:
+  title: 'schedule Access module'
+  restrict access: true
