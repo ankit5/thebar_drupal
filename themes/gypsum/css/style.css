@@ -9,16 +9,18 @@
 
 
 .h2, h2 {
-    font-size: 23px;
+    font-size: 40px;
+    font-size: 50px;
 }
 .h1, h1 {
-    font-size: 35px;
+   
 }
 .ast-header-break-point .h2,.ast-header-break-point  h2 {
-    font-size: 40px;
+    font-size: 23px;
 }
 .ast-header-break-point .h1,.ast-header-break-point  h1 {
-    font-size: 50px;
+    
+    font-size: 35px;
 }
 .main-header-bar {
     background-color: unset;
