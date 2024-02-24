@@ -6,6 +6,9 @@
     font-style: normal;
     font-display: fallback;
 }
+.h2, h2 {
+    font-size: 23px;
+}
 .main-header-bar {
     background-color: unset;
     border-bottom-color: #eaeaea;
