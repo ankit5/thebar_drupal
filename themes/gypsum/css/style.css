@@ -26,6 +26,10 @@ color: black;
     right: 0;
     height: 150px;
 }
+.ast-header-break-point .site-header {
+   
+    height: 117px;
+}
 .path-frontpage .site-header{
     background-color: unset;
     backdrop-filter: invert(20%);
@@ -72,11 +76,13 @@ color: black;
 }
 .ast-header-break-point .main-navigation ul {
     margin: 0;
-    top: 42%;
+    top: 99%;
 }
 .ast-header-break-point .ast-mobile-menu-buttons {
    
+    position: absolute;
     z-index: 10000;
+    top: 33px;
 }
 .ast-header-break-point .main-navigation ul {
     margin: 0;
