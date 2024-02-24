@@ -1,0 +1,23 @@
+name: New West Gypsum
+type: theme
+base theme: stable9
+description: '<p>New West Gypsum is a light weight modern Drupal 8, 9 </p>'
+package: Drupar
+core_version_requirement: ^9.4 || ^10
+# Comment version before uploading to drupal.org
+# version: 1.0.0
+# Libraries
+libraries:
+  - gypsum/global-styling # Library for all global css. These css will be loaded on every pages.
+regions:
+  header: 'Header'
+  content: Content
+  primary_menu: Primary menu
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  footer: 'Footer'
+
+# Information added by Drupal.org packaging script on 2022-08-30
+version: '1.0.0'
+project: 'gypsum'
+datestamp: 1661826904

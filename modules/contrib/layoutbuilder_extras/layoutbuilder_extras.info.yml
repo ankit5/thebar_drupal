@@ -1,0 +1,13 @@
+name: 'Layout Builder extras'
+description: 'Extra UI/UX tweaks for Layout Builder.'
+package: 'Layout Builder'
+type: module
+core_version_requirement: ^8.8 || ^9 || ^10
+configure: layoutbuilder_extras.settings_form
+dependencies:
+  - drupal:layout_builder
+
+# Information added by Drupal.org packaging script on 2023-04-21
+version: '2.0.0'
+project: 'layoutbuilder_extras'
+datestamp: 1682054370

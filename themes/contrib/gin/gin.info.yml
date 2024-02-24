@@ -2,7 +2,7 @@ name: Gin
 type: theme
 base theme: claro
 description: 'Admin theme with a strong focus on improving the Editorial Experience'
-core_version_requirement: ^8.9 || ^9 || ^10
+core_version_requirement: ^9 || ^10
 
 # These dependencies will not allow the installation of Gin at all if gin_toolbar is not activated.
 # A bit harsh, so we'll continue to just rely on the composer requirement for now.
@@ -16,14 +16,6 @@ libraries:
 
 libraries-override:
   # Gin overrides: replace
-  core/drupal.tableselect:
-    js:
-      misc/tableselect.js: js/overrides/tableselect.js
-
-  core/drupal.tableheader:
-    js:
-      misc/tableheader.js: js/overrides/tableheader.js
-
   media_library/view:
     js:
       js/media_library.view.js: js/overrides/media_library.view.js
@@ -42,11 +34,6 @@ libraries-override:
         misc/dialog/off-canvas.css: false
         misc/dialog/off-canvas.theme.css: false
 
-  paragraphs_ee/paragraphs_ee.off_canvas:
-    css:
-      theme:
-        css/paragraphs_ee.off_canvas.css: false
-
   claro/global-styling:
     css:
       layout:
@@ -55,6 +42,10 @@ libraries-override:
         css/theme/colors.css: false
 
 libraries-extend:
+  core/drupal.tableselect:
+    - gin/tableselect
+  core/drupal.tableheader:
+    - gin/tableheader
   core/drupal.autocomplete:
     - gin/autocomplete
   core/ckeditor:
@@ -113,15 +104,17 @@ libraries-extend:
    - gin/workbench
   paragraphs/drupal.paragraphs.widget:
     - gin/paragraphs
-  paragraphs_ee/paragraphs_ee.paragraphs:
-    - gin/paragraphs_ee
   entity_reference_layout/erl_widget:
     - gin/entity_reference_layout
     - gin/layout_paragraphs
   layout_paragraphs/layout_paragraphs_widget:
     - gin/layout_paragraphs
+  layout_paragraphs/builder:
+    - gin/layout_paragraphs2
   responsive_preview/drupal.responsive-preview:
     - gin/responsive_preview
+  workspaces/drupal.workspaces.overview:
+    - gin/workspaces
 
 ckeditor_stylesheets:
   - dist/css/theme/accent.css
@@ -144,7 +137,7 @@ regions:
 regions_hidden:
   - sidebar_first
 
-# Information added by Drupal.org packaging script on 2022-11-28
-version: '8.x-3.0-rc1'
+# Information added by Drupal.org packaging script on 2024-01-31
+version: '8.x-3.0-rc9'
 project: 'gin'
-datestamp: 1669666695
+datestamp: 1706705038

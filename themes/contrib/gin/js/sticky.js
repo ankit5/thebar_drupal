@@ -5,14 +5,21 @@
 ((Drupal) => {
   Drupal.behaviors.ginSticky = {
     attach: (context) => {
-      const ginSticky = once('ginSticky', document.querySelectorAll('.region-sticky-watcher'));
-      ginSticky.forEach(() => {
+      once('ginSticky', '.region-sticky-watcher').forEach(() => {
         // Watch sticky header
         const observer = new IntersectionObserver(
-          ([e]) => context.querySelector('.region-sticky').classList.toggle('region-sticky--is-sticky', e.intersectionRatio < 1),
+          ([e]) => {
+            const regionSticky = context.querySelector('.region-sticky');
+            regionSticky.classList.toggle('region-sticky--is-sticky', e.intersectionRatio < 1);
+            regionSticky.toggleAttribute('data-offset-top', e.intersectionRatio < 1);
+            Drupal.displace(true);
+          },
           { threshold: [1] }
         );
-        observer.observe(context.querySelector('.region-sticky-watcher'));
+        const element = context.querySelector('.region-sticky-watcher');
+        if (element) {
+          observer.observe(element);
+        }
       });
     }
   };

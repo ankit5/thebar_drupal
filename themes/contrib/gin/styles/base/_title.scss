@@ -1,10 +1,4 @@
 .block-page-title-block {
-  @include mq($to: medium) {
-    .gin--edit-form .region-sticky--is-sticky & {
-      visibility: hidden;
-    }
-  }
-
   &:last-child {
     margin-bottom: 0;
   }
@@ -23,7 +17,7 @@
   max-width: 90%;
   transition: font-size 0.25s ease;
 
-  @include mq(ultra) {
+  @include mq(large) {
     .region-sticky--is-sticky & {
       font-size: var(--gin-font-size-h3);
     }
@@ -32,7 +26,7 @@
   &__language {
     display: block;
     font-size: var(--gin-font-size-xs);
-    font-weight: var(--gin-font-weight-normal);;
+    font-weight: var(--gin-font-weight-normal);
     letter-spacing: normal;
     color: var(--gin-color-text);
   }
@@ -74,11 +68,8 @@
 
   &--remove {
     .shortcut-action__icon {
+      mask-image: icon('shortcut-filled');
       background: var(--gin-color-primary);
-
-      .gin--high-contrast-mode & {
-        mask-image: icon('shortcut-filled');
-      }
     }
 
     &:hover .shortcut-action__icon {
@@ -88,11 +79,13 @@
   }
 
   &__message {
+    z-index: 2;
     position: absolute;
-    top: calc(100% + var(--gin-spacing-xs));
-    right: 0;
+    top: 0;
+    left: 100%;
     min-width: 120px;
     pointer-events: none;
+    white-space: nowrap;
     padding: var(--gin-spacing-xs);
     margin-top: calc(var(--gin-spacing-xxs) * -1);
     color: var(--gin-color-contextual-text);

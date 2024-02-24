@@ -1,0 +1,6 @@
+.layout-builder__section .ui-state-drop {
+  margin: 1.25rem;
+  padding: 1.875rem;
+  outline: 2px dashed #fedb60;
+  background-color: #ffd;
+}

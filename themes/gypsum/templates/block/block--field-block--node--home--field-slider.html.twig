@@ -1,0 +1,17 @@
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes }}>{{ label }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+ {% block content %}
+ 
+ {{ content }}
+      <div class="swiper-slide">
+        <div class="slide-inner slide-bg-image" data-background="">
+         
+        </div>
+        <!-- end slide-inner -->
+      </div>
+      <!-- end swiper-slide -->
+
+  {% endblock %}

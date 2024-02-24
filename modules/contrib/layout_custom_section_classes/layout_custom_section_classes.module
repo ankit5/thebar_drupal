@@ -1,0 +1,46 @@
+<?php
+
+use Drupal\Component\Utility\Xss;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function layout_custom_section_classes_preprocess_layout(&$variables) {
+  if (isset($variables['settings']['custom_classes']) && $variables['settings']['custom_classes'] !== '') {
+    $variables["attributes"]["class"][] = $variables['settings']['custom_classes'];
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function layout_custom_section_classes_form_layout_builder_configure_section_alter(&$form, FormStateInterface $form_state, $form_id) {
+    $formObject = $form_state->getFormObject();
+    $config = $formObject->getLayout()->getConfiguration();
+    $classes = $config['custom_classes'] ?? '';
+
+    $form['layout_settings']['custom_classes'] = [
+      '#type' => 'textfield',
+      '#title' => t('Custom Classes'),
+      '#default_value' => $classes ?? '',
+    ];
+
+    // Our submit handler must execute before the default one, because the
+    // default handler stores the section & component data in the tempstore
+    // and we need to update those objects before that happens.
+    array_unshift($form['#submit'], '_layout_custom_section_classes_submit_form');
+}
+
+function _layout_custom_section_classes_submit_form(array &$form, FormStateInterface $form_state) {
+  $formObject = $form_state->getFormObject();
+  $config = $formObject->getLayout()->getConfiguration();
+  if (!$config) {
+    $config = [];
+  }
+
+  $config['custom_classes'] = Xss::filter($form_state->getValue(['layout_settings', 'custom_classes']));
+
+  $formObject->getLayout()->setConfiguration($config);
+}
+

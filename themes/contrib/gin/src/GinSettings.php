@@ -6,9 +6,8 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\user\UserDataInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Service to handle overridden user settings.
@@ -27,7 +26,7 @@ class GinSettings implements ContainerInjectionInterface {
   /**
    * The user data service.
    *
-   * @var \Drupal\user\UserDataInterface
+   * @var \Drupal\user\UserDataInterface|null
    */
   protected $userData;
 
@@ -41,15 +40,15 @@ class GinSettings implements ContainerInjectionInterface {
   /**
    * Settings constructor.
    *
-   * @param \Drupal\user\UserDataInterface $userData
-   *   The user data service.
    * @param \Drupal\Core\Session\AccountInterface $currentUser
    *   The current user.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory.
    */
-  public function __construct(UserDataInterface $userData, AccountInterface $currentUser, ConfigFactoryInterface $configFactory) {
-    $this->userData = $userData;
+  public function __construct(AccountInterface $currentUser, ConfigFactoryInterface $configFactory) {
+    if (\Drupal::hasService('user.data')) {
+      $this->userData = \Drupal::service('user.data');
+    }
     $this->currentUser = $currentUser;
     $this->configFactory = $configFactory;
   }
@@ -59,7 +58,6 @@ class GinSettings implements ContainerInjectionInterface {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('user.data'),
       $container->get('current_user'),
       $container->get('config.factory')
     );
@@ -121,7 +119,7 @@ class GinSettings implements ContainerInjectionInterface {
    *   The account object. Current user if NULL.
    */
   public function setAll(array $settings, AccountInterface $account = NULL) {
-    if (!$account) {
+    if (!$account || !$this->userData) {
       $account = $this->currentUser;
     }
     // All settings are deleted to remove legacy settings.
@@ -137,7 +135,7 @@ class GinSettings implements ContainerInjectionInterface {
    *   The account object. Current user if NULL.
    */
   public function clear(AccountInterface $account = NULL) {
-    if (!$account) {
+    if (!$account || !$this->userData) {
       $account = $this->currentUser;
     }
     $this->userData->delete('gin', $account->id());
@@ -164,7 +162,7 @@ class GinSettings implements ContainerInjectionInterface {
    *   TRUE or FALSE.
    */
   public function userOverrideEnabled(AccountInterface $account = NULL) {
-    if (!$account) {
+    if (!$account || !$this->userData) {
       $account = $this->currentUser;
     }
     return $this->allowUserOverrides() && (bool) $this->userData->get('gin', $account->id(), 'enable_user_settings');
@@ -275,7 +273,9 @@ class GinSettings implements ContainerInjectionInterface {
    *   The theme setting form elements.
    */
   public function getSettingsForm(AccountInterface $account = NULL): array {
-    $beta_label = ' (BETA)';
+    $experimental_label = ' <span class="gin-experimental-flag">Experimental</span>';
+    $beta_label = ' <span class="gin-beta-flag">Beta</span>';
+    $new_label = ' <span class="gin-new-flag">New</span>';
 
     $form['enable_darkmode'] = [
       '#type' => 'radios',
@@ -370,7 +370,7 @@ class GinSettings implements ContainerInjectionInterface {
     // Focus color group.
     $form['focus_group'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Custom Focus color (BETA)'),
+      '#title' => $this->t('Custom Focus color') . $beta_label,
       '#description' => $this->t('Use with caution, values should meet a11y criteria.'),
       '#states' => [
         // Show if met.
@@ -393,7 +393,7 @@ class GinSettings implements ContainerInjectionInterface {
     // Custom Focus color setting.
     $form['focus_color'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Custom Focus color (BETA)'),
+      '#title' => $this->t('Custom Focus color') . $beta_label,
       '#title_display' => 'invisible',
       '#placeholder' => '#777777',
       '#maxlength' => 7,
@@ -408,13 +408,12 @@ class GinSettings implements ContainerInjectionInterface {
     // High contrast mode.
     $form['high_contrast_mode'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Increase contrast (EXPERIMENTAL)'),
+      '#title' => $this->t('Increase contrast') . $experimental_label,
       '#description' => $this->t('Enables high contrast mode.'),
       '#default_value' => $account ? $this->get('high_contrast_mode', $account) : $this->getDefault('high_contrast_mode'),
     ];
 
     // Toolbar setting.
-     if (!$account) {
     $form['classic_toolbar'] = [
       '#type' => 'radios',
       '#title' => $this->t('Navigation (Drupal Toolbar)'),
@@ -423,12 +422,12 @@ class GinSettings implements ContainerInjectionInterface {
         'vertical' => $this->t('Sidebar, Vertical Toolbar (Default)'),
         'horizontal' => $this->t('Horizontal, Modern Toolbar'),
         'classic' => $this->t('Legacy, Classic Drupal Toolbar'),
+        'new' => $this->t('New Drupal Navigation, Test integration') . $new_label . $experimental_label,
       ],
       '#after_build' => [
         '_gin_toolbar_radios',
       ],
     ];
-  }
 
     // Show secondary toolbar in Frontend.
     if (!$account) {
@@ -441,7 +440,6 @@ class GinSettings implements ContainerInjectionInterface {
     }
 
     // Layout density setting.
-     if (!$account) {
     $form['layout_density'] = [
       '#type' => 'radios',
       '#title' => $this->t('Layout density') . $beta_label,
@@ -453,17 +451,14 @@ class GinSettings implements ContainerInjectionInterface {
         'small' => $this->t('Narrow'),
       ],
     ];
-  }
 
     // Description toggle.
-   if (!$account) {
     $form['show_description_toggle'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable form description toggle'),
       '#description' => $this->t('Show a help icon to show/hide form descriptions on content forms.'),
       '#default_value' => $account ? $this->get('show_description_toggle', $account) : $this->getDefault('show_description_toggle'),
     ];
-  }
 
     if (!$account) {
       foreach ($form as $key => $element) {

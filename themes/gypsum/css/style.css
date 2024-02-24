@@ -1,0 +1,124 @@
+@font-face {
+    font-family: "Astra";
+    src: url(../fonts/astra.woff) format("woff"),
+    url(../fonts/astra.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: fallback;
+}
+.main-header-bar {
+    background-color: unset;
+    border-bottom-color: #eaeaea;
+    border-bottom-style: solid;
+}
+.ast-button-wrap .menu-toggle .menu-toggle-icon {
+color: black;
+}
+.ast-header-break-point .ast-mobile-header-inline .site-branding {
+    text-align: center;
+    padding-bottom: 0;
+}
+.site-header {
+    background-color: black;
+    z-index: 99;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 150px;
+}
+.path-frontpage .site-header{
+    background-color: unset;
+    backdrop-filter: invert(20%);
+}
+.main-header-menu  li a {
+    color: white !important;
+}
+.ast-header-break-point .main-header-menu li a {
+    color: black !important;
+    font-weight: normal;
+}
+.ast-header-break-point .site-logo-img img {
+    
+    width: 140px;
+}
+.main-header-menu a:hover {
+    color:#e5dd96;
+}
+.ast-site-identity {
+    padding: 2px;
+}
+.site-branding {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    content: "";
+    margin-left: -150px;
+    text-align: center;
+    line-height: 1;
+}
+.main-navigation {
+    -js-display: block;
+    display: block;
+    height: 100%;
+}
+.main-navigation ul {
+    margin: 0;
+    top: 117%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    list-style: none;
+}
+.ast-header-break-point .main-navigation ul {
+    margin: 0;
+    top: 42%;
+}
+.ast-header-break-point .ast-mobile-menu-buttons {
+   
+    z-index: 10000;
+}
+.ast-header-break-point .main-navigation ul {
+    margin: 0;
+    padding: 0px 0 0;
+    list-style: none;
+}
+.main-header-menu .menu-item {
+    float: none;
+    display: inline-block;
+    position: relative;
+}
+.site-logo-img img {
+    transition: all .2s linear;
+    width: 190px;
+}
+
+.elementor-25066 .elementor-element.elementor-element-5b4952c1 {
+    margin-top: -120px;
+    margin-bottom: 0px;
+    padding: 0px 0px 50px 0px;
+    z-index: 1;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: block !important;
+}
+.swiper-container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+.ck.ck-editor__main>.ck-editor__editable {
+   
+    background: none !important;
+}
+.barbglight {
+    #f8f5f4;
+}
+.lpb-enable {
+    
+    z-index: 100000;
+}

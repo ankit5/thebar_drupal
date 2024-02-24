@@ -1,0 +1,13 @@
+name: Layout Components - Simple Card
+type: module
+description: Simple card block type
+package: LayoutComponents
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:image
+  - drupal:layoutcomponents
+
+# Information added by Drupal.org packaging script on 2023-12-20
+version: '3.0.3'
+project: 'layoutcomponents'
+datestamp: 1703112796

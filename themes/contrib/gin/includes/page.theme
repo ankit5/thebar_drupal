@@ -5,8 +5,8 @@
  * page.theme
  */
 
-use Drupal\gin\GinContentFormHelper;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\gin\GinContentFormHelper;
 use Drupal\gin\GinSettings;
 use Drupal\node\Entity\Node;
 
@@ -64,27 +64,11 @@ function gin_page_attachments_alter(&$page) {
   $gin_activated = _gin_is_active();
 
   if ($gin_activated) {
-    $drupal_version = (float) Drupal::VERSION;
-
-    // Get theme settings.
-    $settings = \Drupal::classResolver(GinSettings::class);
-    $toolbar = $settings->get('classic_toolbar');
-
     // Attach the init script.
     $page['#attached']['library'][] = 'gin/gin_init';
 
-    if ($toolbar === 'classic') {
-      // Attach the classic toolbar styles.
-      $page['#attached']['library'][] = 'gin/gin_classic_toolbar';
-    }
-    elseif ($toolbar === 'horizontal') {
-      // Attach the horizontal toolbar styles.
-      $page['#attached']['library'][] = 'gin/gin_horizontal_toolbar';
-    }
-    else {
-      // Attach toolbar styles.
-      $page['#attached']['library'][] = 'gin/gin_toolbar';
-    }
+    // Attach breadcrumb styles.
+    $page['#attached']['library'][] = 'gin/breadcrumb';
 
     // Attach accent library.
     $page['#attached']['library'][] = 'gin/gin_accent';
@@ -93,13 +77,9 @@ function gin_page_attachments_alter(&$page) {
     $page['#attached']['library'][] = 'gin/sticky';
 
     // Attach Drupal.once for older Drupal versions.
+    $drupal_version = (float) Drupal::VERSION;
     if ($drupal_version < 9.3) {
       $page['#attached']['library'][] = 'gin/once';
-    }
-
-    // Use legacy tabledrag for Drupal versions below 9.0.
-    if ($drupal_version < 9.0) {
-      $page['#attached']['library'][] = 'gin/gin_tabledrag_legacy';
     }
 
     // Custom CSS file.
@@ -108,6 +88,8 @@ function gin_page_attachments_alter(&$page) {
     }
 
     // Expose settings to JS.
+    // Get theme settings.
+    $settings = \Drupal::classResolver(GinSettings::class);
     $page['#attached']['drupalSettings']['gin']['darkmode'] = $settings->get('enable_darkmode');
     $page['#attached']['drupalSettings']['gin']['darkmode_class'] = 'gin--dark-mode';
     $page['#attached']['drupalSettings']['gin']['preset_accent_color'] = $settings->get('preset_accent_color');
@@ -123,12 +105,6 @@ function gin_page_attachments_alter(&$page) {
     $page['#attached']['drupalSettings']['gin']['variables_css_path'] = $basethemeurl . '/dist/css/theme/variables.css';
     $page['#attached']['drupalSettings']['gin']['accent_css_path'] = $basethemeurl . '/dist/css/theme/accent.css';
     $page['#attached']['drupalSettings']['gin']['ckeditor_css_path'] = $basethemeurl . '/dist/css/theme/ckeditor.css';
-
-    // Expose default settings to JS.
-    $page['#attached']['drupalSettings']['gin']['default_darkmode'] = $settings->getDefault('enable_darkmode');
-    $page['#attached']['drupalSettings']['gin']['default_accent_color'] = $settings->getDefault('accent_color');
-    $page['#attached']['drupalSettings']['gin']['default_preset_accent_color'] = $settings->getDefault('preset_accent_color');
-    $page['#attached']['drupalSettings']['gin']['default_high_contrast_mode'] = $settings->getDefault('high_contrast_mode');
   }
 }
 
@@ -139,7 +115,10 @@ function gin_preprocess_page_title(&$variables) {
   if (preg_match('/entity\.node\..*/', \Drupal::routeMatch()->getRouteName(), $matches)) {
     $node = \Drupal::routeMatch()->getParameter('node');
     if ($node instanceof Node) {
-      if ($node->isDefaultTranslation() && $matches[0] !== 'entity.node.content_translation_add') {
+      if ($node->isDefaultTranslation() && !in_array($matches[0], [
+        'entity.node.content_translation_add',
+        'entity.node.delete_form',
+      ])) {
         $variables['title'] = $node->getTitle();
       }
       elseif ($matches[0] === 'entity.node.edit_form') {

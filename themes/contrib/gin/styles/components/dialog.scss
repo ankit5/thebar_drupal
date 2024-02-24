@@ -1,9 +1,12 @@
 .ui-dialog:not(.ui-dialog-off-canvas) {
   max-width: $breakpointWide;
-  margin: var(--gin-spacing-m);
   border: 0 none !important;
   border-radius: var(--gin-border-m);
   background: var(--gin-bg-layer);
+
+  @media (forced-colors: active) {
+    border: 1px solid buttonBorder !important;
+  }
 
   // Dialog without title
   .ui-dialog-content:first-of-type {
@@ -32,7 +35,18 @@
   }
 }
 
+@include mq($to: small) {
+  .ui-dialog:not(.ui-dialog-off-canvas) {
+    min-width: 92%;
+    max-width: 92%;
+  }
+}
+
 .ui-dialog {
+  position: absolute;
+  /*rtl:ignore*/
+  left: 0;
+  top: 0;
   font-family: var(--gin-font);
   outline: none;
 
@@ -49,12 +63,20 @@
     background: $colorDarkAppBackground;
     border: 0 none;
     border-radius: var(--gin-border-m) var(--gin-border-m) 0 0;
+    position: relative;
+
+    @media (forced-colors: active) {
+      border-bottom: 1px solid buttonBorder;
+    }
   }
 
   .ui-dialog-title {
     font-size: var(--gin-font-size-l);
     font-weight: var(--gin-font-weight-normal);
     color: #fff;
+    width: 100%;
+    padding-right: var(--gin-spacing-xl);
+    box-sizing: border-box;
   }
 
   .ui-dialog-content {
@@ -92,11 +114,14 @@
 
   .ui-dialog-titlebar-close {
     position: absolute;
-    top: 18px;
-    right: 24px;
+    top: 50%;
+    left: auto;
+    right: 0;
+    width: 2rem;
+    height: 2rem;
     opacity: .8;
-    margin: 0;
-    transform: none;
+    margin: 0 var(--gin-spacing-m);
+    transform: translateY(-50%);
     background: none;
     border: none;
 
@@ -109,9 +134,13 @@
       transform: none;
       background: #fff;
       mask-image: icon('close');
-      mask-size: 24px 24px;
+      mask-size: var(--gin-icon-size-close) var(--gin-icon-size-close);
       mask-repeat: no-repeat;
       mask-position: center center;
+
+      @media (forced-colors: active) {
+        background: linktext;
+      }
     }
 
     &:hover {
@@ -123,6 +152,10 @@
     padding-left: var(--gin-spacing-l);
     padding-right: var(--gin-spacing-l);
     background: var(--gin-bg-layer);
+  }
+
+  .gin-layer-wrapper {
+    margin-bottom: var(--gin-spacing-l);
   }
 }
 
@@ -139,6 +172,10 @@
   }
 }
 
+ul.paragraphs-add-dialog-list {
+  margin: var(--gin-spacing-l) 0;
+}
+
 .ui-widget-overlay {
   opacity: .9;
   background: var(--gin-bg-layer2);
@@ -147,6 +184,10 @@
 .views-ui-dialog {
   .views-offset-bottom {
     border-top: 1px solid var(--gin-border-color);
+
+    @media (forced-colors: active) {
+      border-top: none;
+    }
   }
 }
 
@@ -197,4 +238,9 @@ table.treetable {
   tr.branch {
     background-color: transparent;
   }
+}
+
+.ui-dialog .gin-layer-wrapper {
+  margin-bottom: var(--gin-spacing-l);
+  margin-top: var(--gin-spacing-l);
 }

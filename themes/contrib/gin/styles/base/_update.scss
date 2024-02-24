@@ -117,18 +117,23 @@ tr.color-error,
   }
 }
 
-.layer-wrapper {
+.gin-layer-wrapper {
   .responsive-enabled {
     margin-top: 0;
   }
 }
 
-.block-system > form .layer-wrapper,
+.block-system > form .gin-layer-wrapper,
 .panel .admin-list,
 .block-system > form .dataset-table-wrapper {
   padding: 0;
   border: 0 none;
   box-shadow: none;
+}
+
+// fix overflow issue in FF
+.block-system > form .gin-layer-wrapper {
+  padding-bottom: 1px;
 }
 
 .compact-link {
