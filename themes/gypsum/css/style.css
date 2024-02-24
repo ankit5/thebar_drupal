@@ -6,8 +6,19 @@
     font-style: normal;
     font-display: fallback;
 }
+
+
 .h2, h2 {
     font-size: 23px;
+}
+.h1, h1 {
+    font-size: 35px;
+}
+.ast-header-break-point .h2,.ast-header-break-point  h2 {
+    font-size: 40px;
+}
+.ast-header-break-point .h1,.ast-header-break-point  h1 {
+    font-size: 50px;
 }
 .main-header-bar {
     background-color: unset;
