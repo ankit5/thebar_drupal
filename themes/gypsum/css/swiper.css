@@ -178,14 +178,14 @@
   
   @media screen and (min-width: 992px) {
     .hero-style .container {
-      padding-top: 95px;
+      padding-bottom: 50px;
     }
   }
   
   .hero-style .slide-title,
   .hero-style .slide-text,
   .hero-style .slide-btns {
-    max-width: 690px;
+    
   }
   
   .hero-style .slide-title h2 {
