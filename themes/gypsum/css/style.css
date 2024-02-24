@@ -9,11 +9,11 @@
 
 
 .h2, h2 {
-    font-size: 40px;
     font-size: 50px;
+    
 }
 .h1, h1 {
-   
+    font-size: 60px;
 }
 .ast-header-break-point .h2,.ast-header-break-point  h2 {
     font-size: 23px;
