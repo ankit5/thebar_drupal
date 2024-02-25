@@ -158,3 +158,6 @@ a:focus, a:hover {
     
     z-index: 100000;
 }
+.contact .layout--twocol-section {
+    padding: 45px;
+}
