@@ -7,6 +7,10 @@
     font-display: fallback;
 }
 
+body {
+    color: #808285;
+}
+
 
 .h2, h2 {
     font-size: 50px;
