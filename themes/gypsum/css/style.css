@@ -50,20 +50,28 @@ color: black;
     background-color: unset;
     backdrop-filter: invert(20%);
 }
-.main-header-menu  li a {
-    color: white !important;
+a {
+    color:#000000;
 }
+a:focus, a:hover {
+    color:#e5dd96;
+}
+.main-header-menu  li a {
+    color: white;
+}
+.main-header-menu  li a:hover,.main-header-menu  li a:focus {
+    color:#e5dd96;
+}
+
 .ast-header-break-point .main-header-menu li a {
-    color: black !important;
+    color: black;
     font-weight: normal;
 }
 .ast-header-break-point .site-logo-img img {
     
     width: 140px;
 }
-.main-header-menu a:hover {
-    color:#e5dd96;
-}
+
 .ast-site-identity {
     padding: 2px;
 }

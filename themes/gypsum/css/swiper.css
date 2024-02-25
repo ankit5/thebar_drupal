@@ -248,12 +248,12 @@
       #button-style
   --------------------------------------------------------------*/
   .theme-btn, .theme-btn-s2{
-      background-color: #ffffff;
+      background-color: #e5dd96;
       font-size: 20px;
     font-weight: 500;
     line-height: 1.4;
     text-align: center;
-    color:#2b3b95;
+    color:#010101;
       padding: 9px 32px;
       border: 0; 
     border-radius: 3px;
@@ -271,8 +271,8 @@
       color: #131e4a;
   }
   .theme-btn:hover, .theme-btn-s2:hover, .theme-btn:focus, .theme-btn-s2:focus, .theme-btn:active, .theme-btn-s2:active {
-      background-color:#2b3b95 ;
-      color: #fff;
+      background-color:#e5dd96 ;
+      color: #000000;
   }
   .theme-btn-s3{
     font-size: 16px;
