@@ -1,6 +1,6 @@
 name: New West Gypsum
 type: theme
-base theme: stable9
+base theme: claro
 description: '<p>New West Gypsum is a light weight modern Drupal 8, 9 </p>'
 package: Drupar
 core_version_requirement: ^9.4 || ^10

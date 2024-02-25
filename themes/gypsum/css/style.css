@@ -37,7 +37,7 @@ color: black;
 .site-header {
     background-color: black;
     z-index: 99;
-    position: absolute;
+   
     left: 0;
     right: 0;
     height: 150px;
@@ -47,6 +47,7 @@ color: black;
     height: 117px;
 }
 .path-frontpage .site-header{
+    position: absolute;
     background-color: unset;
     backdrop-filter: invert(20%);
 }
@@ -146,7 +147,7 @@ a:focus, a:hover {
     background: none !important;
 }
 .barbglight {
-    #f8f5f4;
+   
 }
 .lpb-enable {
     

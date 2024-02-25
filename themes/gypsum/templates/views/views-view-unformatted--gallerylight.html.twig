@@ -1,0 +1,66 @@
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.3/css/lightgallery.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.3/css/lg-zoom.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.3/css/lg-thumbnail.css">
+
+  <style id="INLINE_PEN_STYLESHEET_ID">
+  
+.gallery-item {
+  width: 200px;
+  padding: 5px;
+}
+
+  </style>
+
+
+  
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col col-md-12">
+      <div class="gallery-container" id="animated-thumbnails-gallery">
+        {% for row in rows %} 
+
+{{ row.content }}
+ 
+{% endfor %}
+        
+      
+       
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.3/lightgallery.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.3/plugins/zoom/lg-zoom.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.3/plugins/thumbnail/lg-thumbnail.umd.js"></script>
+<script>
+ $("#animated-thumbnails-gallery")
+  .justifiedGallery({
+    captions: false,
+    lastRow: "hide",
+    rowHeight: 180,
+    margins: 8
+  })
+  .on("jg.complete", function () {
+    window.lightGallery(
+      document.getElementById("animated-thumbnails-gallery"),
+      {
+        autoplayFirstVideo: false,
+        pager: false,
+        galleryId: "nature",
+        plugins: [lgZoom, lgThumbnail],
+        mobileSettings: {
+          controls: false,
+          showCloseIcon: false,
+          download: false,
+          rotate: false
+        }
+      }
+    );
+  });
+</script>

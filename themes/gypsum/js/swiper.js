@@ -1,6 +1,7 @@
 (function($) {
 
-    
+   
+
     
     var menu = [];
     $('.swiper-slide').each( function(index){

@@ -10,6 +10,7 @@ global-styling:
       css/swiper.css: {}
       css/post.css: {}
       css/style.css: {}
+      /core/themes/claro/css/components/pager.css : {}
   js:
     js/gypsum.js: {}
     js/swiper.js: {}
