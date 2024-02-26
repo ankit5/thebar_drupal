@@ -116,7 +116,7 @@ class BootstrapLayout extends LayoutDefault implements ContainerFactoryPluginInt
       foreach ($this->getPluginDefinition()->getRegionNames() as $region_name) {
         $region_classes = $this->configuration['regions_classes'][$region_name];
         if ($this->configuration['layout_regions_classes'] && isset($this->configuration['layout_regions_classes'][$region_name])) {
-          $build[$region_name]['#attributes']['class'][] = $this->configuration['layout_regions_classes'][$region_name];
+          $build[$region_name]['#attributes']['class'] = $this->configuration['layout_regions_classes'][$region_name];
         }
         $build[$region_name]['#attributes']['class'][] = $region_classes;
       }
